@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Beauty Brand Palette */
+  --color-brand-nude: #fdf5f2;      /* Soft skin tone background */
+  --color-brand-rose: #e8b4b8;      /* Primary accent */
+  --color-brand-berry: #6b2d2d;     /* Deep bold text/buttons */
+  --color-brand-terracotta: #c97c5d; /* Warm secondary accent */
+  --color-luxury-black: #121212;
+  
+  --font-serif: "italiana", serif;  /* Elegant beauty-style serif */
+  --font-sans: "Plus Jakarta Sans", sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-brand-nude text-luxury-black selection:bg-brand-rose/30;
+  }
+}
