@@ -1,12 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable no-case-declarations */
-import {
-  createContext,
-  useContext,
-  useReducer,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, useContext, useReducer, useEffect, useState } from "react";
 
 const AppContext = createContext();
 
@@ -22,33 +16,40 @@ function reducer(state, action) {
       const newTheme = state.theme === "light" ? "dark" : "light";
       localStorage.setItem("theme", newTheme);
       return { ...state, theme: newTheme };
+
     case "LOGIN":
       localStorage.setItem("user", JSON.stringify(action.payload));
       return { ...state, user: action.payload };
+
     case "LOGOUT":
       localStorage.removeItem("user");
       return { ...state, user: null };
+
     case "ADD_TO_CART":
       const exists = state.cart.find((item) => item.id === action.payload.id);
-      const updatedCart = exists
+      const updatedCartAdd = exists
         ? state.cart.map((item) =>
             item.id === action.payload.id
-              ? {
-                  ...item,
-                  quantity: item.quantity + (action.payload.quantity || 1),
-                }
+              ? { ...item, quantity: item.quantity + (action.payload.quantity || 1) }
               : item
           )
-        : [
-            ...state.cart,
-            { ...action.payload, quantity: action.payload.quantity || 1 },
-          ];
-      localStorage.setItem("cart", JSON.stringify(updatedCart));
-      return { ...state, cart: updatedCart };
+        : [...state.cart, { ...action.payload, quantity: action.payload.quantity || 1 }];
+      
+      localStorage.setItem("cart", JSON.stringify(updatedCartAdd));
+      return { ...state, cart: updatedCartAdd };
+
+    case "UPDATE_QUANTITY": // NEW CASE ADDED HERE
+      const updatedQtyCart = state.cart.map((item) =>
+        item.id === action.payload.id ? { ...item, quantity: action.payload.qty } : item
+      );
+      localStorage.setItem("cart", JSON.stringify(updatedQtyCart));
+      return { ...state, cart: updatedQtyCart };
+
     case "REMOVE_ITEM":
       const filtered = state.cart.filter((item) => item.id !== action.payload);
       localStorage.setItem("cart", JSON.stringify(filtered));
       return { ...state, cart: filtered };
+
     default:
       return state;
   }
@@ -66,12 +67,12 @@ export const AppProvider = ({ children }) => {
 
   return (
     <AppContext.Provider value={{ ...state, dispatch, products }}>
-    <div className={`${state.theme} contents`}>
-      <div className="min-h-screen bg-brand-nude text-brand-berry dark:bg-luxury-black dark:text-brand-nude transition-colors duration-500 ease-in-out">
-        {children}
+      <div className={`${state.theme} contents`}>
+        <div className="min-h-screen bg-brand-nude text-brand-berry dark:bg-luxury-black dark:text-brand-nude transition-colors duration-500 ease-in-out">
+          {children}
+        </div>
       </div>
-    </div>
-  </AppContext.Provider>
+    </AppContext.Provider>
   );
 };
 

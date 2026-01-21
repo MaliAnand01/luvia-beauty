@@ -8,10 +8,10 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import ProductDetails from "./pages/ProductDetails";
 import Cart from "./pages/Cart";
-import Login from "./pages/Login";
 import Account from "./pages/Account";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import Checkout from "./pages/Checkout";
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -28,10 +28,10 @@ function AnimatedRoutes() {
           <Route path="/" element={<Home />} />
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/login" element={<Login />} />
           <Route path="/account" element={<Account />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/checkout" element={<Checkout />} />
         </Routes>
       </motion.div>
     </AnimatePresence>
@@ -44,7 +44,7 @@ export default function App() {
       <BrowserRouter>
         <Toaster position="bottom-center" />
         <Navbar />
-        <main className="min-h-screen">
+        <main className="min-h-[calc(100vh-80px)]">
           <AnimatedRoutes />
         </main>
       </BrowserRouter>
