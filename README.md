@@ -1,16 +1,26 @@
-# React + Vite
+# LUVIA BEAUTY — Luxury Skincare Rituals
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+LUVIA is a modern, responsive e-commerce frontend built with **React** and **Tailwind CSS v4**. It features a soft, bold feminine aesthetic designed for high-end beauty brands.
 
-Currently, two official plugins are available:
+## ✨ Features
+- **Modern UI**: Editorial design with smooth Framer Motion animations and responsive layouts.
+- **Dynamic Search**: Real-time product discovery using the DummyJSON API with debounced search.
+- **Persistent State**: Shopping cart and user authentication saved in LocalStorage.
+- **Luxury Checkout**: Multi-step checkout flow with address persistence and confetti celebration.
+- **Professional Dashboard**: User profile with "Membership Status," active cart preview, and order history.
+- **Invoicing**: On-the-fly invoice generation and download functionality.
+- **Auth System**: Integrated Login/Signup modal with background blur.
+- **Dark Mode**: Fully implemented dark/light theme toggle.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🛠️ Tech Stack
+- **React 18** (Vite)
+- **Tailwind CSS v4** (Zero-config styling)
+- **Framer Motion** (Smooth transitions)
+- **Lucide React** (Minimalist iconography)
+- **React Hook Form** (Validation)
+- **React Hot Toast** (Notifications)
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 📂 Project Structure
+- `/src/context`: Global state management (Context + useReducer)
+- `/src/components`: Reusable UI (Navbar, AuthModal, ProductCard)
+- `/src/pages`: Main application routes (Home, Cart, Checkout, Account)

@@ -1,6 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable no-case-declarations */
 import { createContext, useContext, useReducer, useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 
 const AppContext = createContext();
 
@@ -8,6 +9,8 @@ const initialState = {
   cart: JSON.parse(localStorage.getItem("cart")) || [],
   user: JSON.parse(localStorage.getItem("user")) || null,
   theme: localStorage.getItem("theme") || "light",
+  searchQuery: "",
+  loading: false,
 };
 
 function reducer(state, action) {
@@ -25,6 +28,12 @@ function reducer(state, action) {
       localStorage.removeItem("user");
       return { ...state, user: null };
 
+    case "SET_QUERY":
+      return { ...state, searchQuery: action.payload };
+
+    case "SET_LOADING":
+      return { ...state, loading: action.payload };
+
     case "ADD_TO_CART":
       const exists = state.cart.find((item) => item.id === action.payload.id);
       const updatedCartAdd = exists
@@ -34,11 +43,11 @@ function reducer(state, action) {
               : item
           )
         : [...state.cart, { ...action.payload, quantity: action.payload.quantity || 1 }];
-      
+
       localStorage.setItem("cart", JSON.stringify(updatedCartAdd));
       return { ...state, cart: updatedCartAdd };
 
-    case "UPDATE_QUANTITY": // NEW CASE ADDED HERE
+    case "UPDATE_QUANTITY":
       const updatedQtyCart = state.cart.map((item) =>
         item.id === action.payload.id ? { ...item, quantity: action.payload.qty } : item
       );
@@ -60,10 +69,26 @@ export const AppProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch("https://dummyjson.com/products")
-      .then((res) => res.json())
-      .then((data) => setProducts(data.products));
-  }, []);
+    const fetchProducts = async () => {
+      dispatch({ type: "SET_LOADING", payload: true });
+      try {
+        // Fetch specific skincare category when no search is performed
+        const url = state.searchQuery
+          ? `https://dummyjson.com/products/search?q=${state.searchQuery}`
+          : "https://dummyjson.com/products/";
+
+        const res = await fetch(url);
+        const data = await res.json();
+        setProducts(data.products);
+      } catch (error) {
+        console.error("Fetch error:", error);
+      } finally {
+        dispatch({ type: "SET_LOADING", payload: false });
+      }
+    };
+
+    fetchProducts();
+  }, [state.searchQuery]);
 
   return (
     <AppContext.Provider value={{ ...state, dispatch, products }}>
@@ -76,4 +101,15 @@ export const AppProvider = ({ children }) => {
   );
 };
 
+// Custom hook for consuming context
 export const useApp = () => useContext(AppContext);
+
+export const AdminGuard = ({ children }) => {
+  const { user } = useApp();
+  
+  if (!user || !user.isAdmin) {
+    return <Navigate to="/" replace />;
+  }
+
+  return children;
+};

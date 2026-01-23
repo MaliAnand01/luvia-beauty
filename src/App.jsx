@@ -12,6 +12,9 @@ import Account from "./pages/Account";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Checkout from "./pages/Checkout";
+import AdminDashboard from "./pages/AdminDashboard";
+import ManageOrders from "./pages/ManageOrders";
+import { AdminGuard } from "./context/AppContext";
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -32,6 +35,22 @@ function AnimatedRoutes() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route
+            path="/admin"
+            element={
+              <AdminGuard>
+                <AdminDashboard />
+              </AdminGuard>
+            }
+          />
+          <Route
+            path="/admin/orders"
+            element={
+              <AdminGuard>
+                <ManageOrders />
+              </AdminGuard>
+            }
+          />
         </Routes>
       </motion.div>
     </AnimatePresence>
