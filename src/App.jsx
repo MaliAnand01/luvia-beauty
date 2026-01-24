@@ -15,6 +15,7 @@ import Checkout from "./pages/Checkout";
 import AdminDashboard from "./pages/AdminDashboard";
 import ManageOrders from "./pages/ManageOrders";
 import { AdminGuard } from "./context/AppContext";
+import OrderSuccess from "./pages/OrderSuccess";
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -35,6 +36,7 @@ function AnimatedRoutes() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/order-success" element={<OrderSuccess />} />
           <Route
             path="/admin"
             element={
